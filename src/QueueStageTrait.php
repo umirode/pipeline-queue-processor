@@ -21,11 +21,10 @@ trait QueueStageTrait
      */
     protected function nextStage(array $payload)
     {
-        if (!isset($payload[QueueStagePayload::KEY])) {
+        $stagePayload = $this->getStagePayload($payload);
+        if ($stagePayload === null) {
             return;
         }
-
-        $stagePayload = QueueStagePayload::createFromArray($payload[QueueStagePayload::KEY]);
 
         $nextStageNumber = $stagePayload->getNextStageNumber();
         if ($nextStageNumber === null) {
@@ -35,5 +34,18 @@ trait QueueStageTrait
         $stagePayload->setCurrentStageNumber($nextStageNumber);
 
         return $this->pusher->push($payload, $stagePayload);
+    }
+
+    /**
+     * @param array $payload
+     * @return QueueStagePayload|null
+     */
+    protected function getStagePayload(array $payload): ?QueueStagePayload
+    {
+        if (!isset($payload[QueueStagePayload::KEY])) {
+            return null;
+        }
+
+        return QueueStagePayload::createFromArray($payload[QueueStagePayload::KEY]);
     }
 }
