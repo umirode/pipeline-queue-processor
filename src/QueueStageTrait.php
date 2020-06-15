@@ -13,7 +13,7 @@ trait QueueStageTrait
     /**
      * @var QueueStagePayloadPusher
      */
-    private $pusher;
+    protected $pusher;
 
     /**
      * @param array $payload
