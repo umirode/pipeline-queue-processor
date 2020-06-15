@@ -8,7 +8,7 @@ namespace Umirode\PipelineQueueProcessor;
  * Class QueueStagePayloadPusher
  * @package Umirode\PipelineQueueProcessor
  */
-final class QueueStagePayloadPusher
+class QueueStagePayloadPusher
 {
     /**
      * @var QueueInterface

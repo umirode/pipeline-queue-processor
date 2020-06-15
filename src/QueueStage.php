@@ -36,6 +36,10 @@ abstract class QueueStage
      */
     protected function nextStage(array $payload)
     {
+        if (!isset($payload[QueueStagePayload::KEY])) {
+            return;
+        }
+
         $stagePayload = QueueStagePayload::createFromArray($payload[QueueStagePayload::KEY]);
 
         $nextStageNumber = $stagePayload->getNextStageNumber();
