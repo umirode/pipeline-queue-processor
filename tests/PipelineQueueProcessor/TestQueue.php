@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Umirode\PipelineQueueProcessor\Tests;
-
 
 use Umirode\PipelineQueueProcessor\QueueInterface;
 

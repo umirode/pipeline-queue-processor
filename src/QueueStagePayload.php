@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Umirode\PipelineQueueProcessor;
-
 
 use Ramsey\Uuid\Uuid;
 
@@ -82,7 +82,8 @@ final class QueueStagePayload
         $this->currentStageNumber = $currentStageNumber;
     }
 
-    public function nextStage(): void {
+    public function nextStage(): void
+    {
         $nextStageNumber = $this->getNextStageNumber();
         if ($nextStageNumber === null) {
             return;
