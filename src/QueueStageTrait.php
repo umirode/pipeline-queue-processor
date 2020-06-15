@@ -1,34 +1,18 @@
 <?php
 
-declare(strict_types=1);
 
 namespace Umirode\PipelineQueueProcessor;
 
 /**
- * Class QueueStage
+ * Trait QueueStageTrait
  * @package Umirode\PipelineQueueProcessor
  */
-abstract class QueueStage
+trait QueueStageTrait
 {
     /**
      * @var QueueStagePayloadPusher
      */
     private $pusher;
-
-    /**
-     * QueueStage constructor.
-     * @param QueueStagePayloadPusher $pusher
-     */
-    public function __construct(QueueStagePayloadPusher $pusher)
-    {
-        $this->pusher = $pusher;
-    }
-
-    /**
-     * @param array $payload
-     * @return mixed
-     */
-    abstract public function __invoke(array $payload = []);
 
     /**
      * @param array $payload
