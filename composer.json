@@ -12,7 +12,6 @@
   "require": {
     "php": "^7.2",
     "umirode/pipeline": "^1.0",
-    "beberlei/assert": "^3.2",
     "ramsey/uuid": "^4.0"
   },
   "require-dev": {
