@@ -31,6 +31,10 @@ final class TestStage implements QueueStageInterface
      */
     public function __invoke(array $payload = [])
     {
+        if (isset($payload['repeat']) && $payload['repeat'] === true) {
+            return $this->repeatStage($payload);
+        }
+
         return $this->nextStage($payload);
     }
 }

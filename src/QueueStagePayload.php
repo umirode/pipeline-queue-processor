@@ -63,7 +63,9 @@ final class QueueStagePayload
      */
     public function getNextStageNumber(): ?int
     {
-        return isset($this->stages[$this->currentStageNumber + 1]) ? $this->currentStageNumber + 1 : null;
+        $nextStageNumber = $this->currentStageNumber + 1;
+
+        return isset($this->stages[$nextStageNumber]) ? $nextStageNumber : null;
     }
 
     /**

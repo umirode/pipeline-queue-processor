@@ -38,6 +38,20 @@ trait QueueStageTrait
 
     /**
      * @param array $payload
+     * @return string|void|null
+     */
+    protected function repeatStage(array $payload)
+    {
+        $stagePayload = $this->getStagePayload($payload);
+        if ($stagePayload === null) {
+            return;
+        }
+
+        return $this->pusher->push($payload, $stagePayload);
+    }
+
+    /**
+     * @param array $payload
      * @return QueueStagePayload|null
      */
     protected function getStagePayload(array $payload): ?QueueStagePayload

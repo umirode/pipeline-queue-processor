@@ -74,6 +74,37 @@ final class QueueStageTest extends TestCase
         $this->assertNull($result);
     }
 
+
+    public function testRepeatStage(): void
+    {
+        /** @var QueueStagePayloadPusher|MockObject $pusher */
+        $pusher = $this->createMock(QueueStagePayloadPusher::class);
+        $pusher->method('push')->willReturn('repeat');
+
+        $testStage = new TestStage($pusher);
+
+        $result = $testStage(
+            [
+                'repeat' => true,
+                QueueStagePayload::KEY => [
+                    'pipeline_identifier' => 'test',
+                    'current_stage_number' => 0,
+                    'stages' => [
+                        TestStage::class,
+                    ],
+                ]
+            ]
+        );
+        $this->assertEquals('repeat', $result);
+
+        $result = $testStage(
+            [
+                'repeat' => true,
+            ]
+        );
+        $this->assertNull($result);
+    }
+
     public function testMultipleStage(): void
     {
         $testStagePayload = [
