@@ -84,4 +84,41 @@ final class QueuePayloadTest extends TestCase
         $this->assertEquals(2, $stagePayload->getNextStageNumber());
         $this->assertEquals(TestStage::class, $stagePayload->getStage());
     }
+
+    public function testAddStage(): void
+    {
+        $stagePayload = new QueueStagePayload(
+            'test',
+            0,
+            [
+                      'test1',
+                      'test2',
+                      'test3',
+                  ]
+        );
+
+        $stagePayload->addNextStage('test4');
+
+        $this->assertEquals('test1', $stagePayload->getStage());
+
+        $stagePayload->nextStage();
+        $this->assertEquals('test4', $stagePayload->getStage());
+
+        $stagePayload->addNextStage('test5');
+        $this->assertEquals('test4', $stagePayload->getStage());
+
+        $stagePayload->nextStage();
+        $this->assertEquals('test5', $stagePayload->getStage());
+
+        $this->assertEquals(
+            [
+                'test1',
+                'test4',
+                'test5',
+                'test2',
+                'test3',
+            ],
+            $stagePayload->toArray()['stages']
+        );
+    }
 }

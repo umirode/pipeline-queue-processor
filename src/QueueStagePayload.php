@@ -77,6 +77,19 @@ final class QueueStagePayload
     }
 
     /**
+     * @param string $stage
+     */
+    public function addNextStage(string $stage): void
+    {
+        $firstStagesPart = array_slice($this->stages, 0, $this->currentStageNumber + 1);
+        $secondStagesPart = array_slice($this->stages, $this->currentStageNumber + 1);
+
+        $firstStagesPart [] = $stage;
+
+        $this->stages = array_merge($firstStagesPart, $secondStagesPart);
+    }
+
+    /**
      * @param int $currentStageNumber
      */
     public function setCurrentStageNumber(int $currentStageNumber): void
