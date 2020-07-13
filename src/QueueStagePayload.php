@@ -14,6 +14,10 @@ final class QueueStagePayload
 {
     public const KEY = '__stage_payload__';
 
+    public const KEY_PIPELINE_IDENTIFIER = self::KEY . '__pipeline_identifier__';
+    public const KEY_CURRENT_STAGE_NUMBER = self::KEY . 'current_stage_number';
+    public const KEY_CURRENT_STAGES = self::KEY . 'stages';
+
     /**
      * @var string
      */
@@ -37,7 +41,7 @@ final class QueueStagePayload
      */
     public function __construct(?string $pipelineIdentifier = null, int $currentStageNumber = 0, array $stages = [])
     {
-        $this->pipelineIdentifier = $pipelineIdentifier ?? (string)Uuid::uuid4();
+        $this->pipelineIdentifier = $pipelineIdentifier ?? Uuid::uuid4()->toString();
         $this->currentStageNumber = $currentStageNumber;
         $this->stages = $stages;
     }
@@ -113,9 +117,9 @@ final class QueueStagePayload
     public function toArray(): array
     {
         return [
-            'pipeline_identifier' => $this->pipelineIdentifier,
-            'current_stage_number' => $this->currentStageNumber,
-            'stages' => $this->stages,
+            self::KEY_PIPELINE_IDENTIFIER => $this->pipelineIdentifier,
+            self::KEY_CURRENT_STAGE_NUMBER => $this->currentStageNumber,
+            self::KEY_CURRENT_STAGES => $this->stages,
         ];
     }
 
@@ -126,9 +130,9 @@ final class QueueStagePayload
     public static function createFromArray(array $data): self
     {
         return new static(
-            $data['pipeline_identifier'] ?? null,
-            $data['current_stage_number'] ?? 0,
-            $data['stages'] ?? []
+            $data[self::KEY_PIPELINE_IDENTIFIER] ?? null,
+            $data[self::KEY_CURRENT_STAGE_NUMBER] ?? 0,
+            $data[self::KEY_CURRENT_STAGES] ?? []
         );
     }
 }

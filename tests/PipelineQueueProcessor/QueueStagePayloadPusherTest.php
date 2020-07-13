@@ -24,7 +24,7 @@ final class QueueStagePayloadPusherTest extends TestCase
         $pusher = new QueueStagePayloadPusher($queue);
 
         $result = $pusher->push([], new QueueStagePayload());
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testPushCorrectQueueResponse(): void
@@ -38,7 +38,7 @@ final class QueueStagePayloadPusherTest extends TestCase
 
         $queue->method('push')->willReturn(true);
         $result = $pusher->push([], $stagePayload);
-        $this->assertEquals($stagePayload->getPipelineIdentifier(), $result);
+        self::assertEquals($stagePayload->getPipelineIdentifier(), $result);
     }
 
     public function testPushIncorrectQueueResponse(): void
@@ -52,6 +52,6 @@ final class QueueStagePayloadPusherTest extends TestCase
 
         $queue->method('push')->willReturn(false);
         $result = $pusher->push([], $stagePayload);
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 }

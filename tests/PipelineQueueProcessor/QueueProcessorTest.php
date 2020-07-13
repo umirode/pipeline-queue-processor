@@ -24,7 +24,7 @@ final class QueueProcessorTest extends TestCase
         $processor = new QueueProcessor($pusher);
 
         $result = $processor->process([], ['TestStage']);
-        $this->assertEquals('test_identifier', $result);
+        self::assertEquals('test_identifier', $result);
     }
 
     public function testProcessEmpty(): void
@@ -35,6 +35,6 @@ final class QueueProcessorTest extends TestCase
         $processor = new QueueProcessor($pusher);
 
         $result = $processor->process([]);
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 }

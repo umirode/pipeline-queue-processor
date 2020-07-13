@@ -23,34 +23,34 @@ final class QueueStageTest extends TestCase
         $testStage = new TestStage($pusher);
 
         $result = $testStage();
-        $this->assertNull($result);
+        self::assertNull($result);
 
         $result = $testStage(
             [
                 QueueStagePayload::KEY => [
-                    'pipeline_identifier' => 'test',
-                    'current_stage_number' => 0,
-                    'stages' => [
+                    QueueStagePayload::KEY_PIPELINE_IDENTIFIER => 'test',
+                    QueueStagePayload::KEY_CURRENT_STAGE_NUMBER => 0,
+                    QueueStagePayload::KEY_CURRENT_STAGES => [
                         TestStage::class,
                     ],
                 ]
             ]
         );
-        $this->assertNull($result);
+        self::assertNull($result);
 
         $result = $testStage(
             [
                 QueueStagePayload::KEY => [
-                    'pipeline_identifier' => 'test',
-                    'current_stage_number' => 0,
-                    'stages' => [
+                    QueueStagePayload::KEY_PIPELINE_IDENTIFIER => 'test',
+                    QueueStagePayload::KEY_CURRENT_STAGE_NUMBER => 0,
+                    QueueStagePayload::KEY_CURRENT_STAGES => [
                         TestStage::class,
                         TestStage::class,
                     ],
                 ]
             ]
         );
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testSingleStage(): void
@@ -63,15 +63,15 @@ final class QueueStageTest extends TestCase
         $result = $testStage(
             [
                 QueueStagePayload::KEY => [
-                    'pipeline_identifier' => 'test',
-                    'current_stage_number' => 0,
-                    'stages' => [
+                    QueueStagePayload::KEY_PIPELINE_IDENTIFIER => 'test',
+                    QueueStagePayload::KEY_CURRENT_STAGE_NUMBER => 0,
+                    QueueStagePayload::KEY_CURRENT_STAGES => [
                         TestStage::class,
                     ],
                 ]
             ]
         );
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
 
@@ -87,30 +87,30 @@ final class QueueStageTest extends TestCase
             [
                 'repeat' => true,
                 QueueStagePayload::KEY => [
-                    'pipeline_identifier' => 'test',
-                    'current_stage_number' => 0,
-                    'stages' => [
+                    QueueStagePayload::KEY_PIPELINE_IDENTIFIER => 'test',
+                    QueueStagePayload::KEY_CURRENT_STAGE_NUMBER => 0,
+                    QueueStagePayload::KEY_CURRENT_STAGES => [
                         TestStage::class,
                     ],
                 ]
             ]
         );
-        $this->assertEquals('repeat', $result);
+        self::assertEquals('repeat', $result);
 
         $result = $testStage(
             [
                 'repeat' => true,
             ]
         );
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testMultipleStage(): void
     {
         $testStagePayload = [
-            'pipeline_identifier' => 'test',
-            'current_stage_number' => 0,
-            'stages' => [
+            QueueStagePayload::KEY_PIPELINE_IDENTIFIER => 'test',
+            QueueStagePayload::KEY_CURRENT_STAGE_NUMBER => 0,
+            QueueStagePayload::KEY_CURRENT_STAGES => [
                 TestStage::class,
                 TestStage::class,
             ]
@@ -119,7 +119,7 @@ final class QueueStageTest extends TestCase
         /** @var QueueStagePayloadPusher|MockObject $pusher */
         $pusher = $this->createMock(QueueStagePayloadPusher::class);
 
-        $pusher->method('push')->willReturn($testStagePayload['pipeline_identifier']);
+        $pusher->method('push')->willReturn($testStagePayload[QueueStagePayload::KEY_PIPELINE_IDENTIFIER]);
 
         $testStage = new TestStage($pusher);
 
@@ -128,6 +128,6 @@ final class QueueStageTest extends TestCase
                 QueueStagePayload::KEY => $testStagePayload
             ]
         );
-        $this->assertEquals($testStagePayload['pipeline_identifier'], $result);
+        self::assertEquals($testStagePayload[QueueStagePayload::KEY_PIPELINE_IDENTIFIER], $result);
     }
 }

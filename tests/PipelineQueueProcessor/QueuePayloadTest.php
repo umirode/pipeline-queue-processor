@@ -17,19 +17,19 @@ final class QueuePayloadTest extends TestCase
     {
         $stagePayload = new QueueStagePayload();
 
-        $this->assertNotEmpty($stagePayload->getPipelineIdentifier());
-        $this->assertIsString($stagePayload->getPipelineIdentifier());
-        $this->assertEquals(0, $stagePayload->getCurrentStageNumber());
-        $this->assertNull($stagePayload->getNextStageNumber());
-        $this->assertNull($stagePayload->getStage());
+        self::assertNotEmpty($stagePayload->getPipelineIdentifier());
+        self::assertIsString($stagePayload->getPipelineIdentifier());
+        self::assertEquals(0, $stagePayload->getCurrentStageNumber());
+        self::assertNull($stagePayload->getNextStageNumber());
+        self::assertNull($stagePayload->getStage());
 
         $stagePayload->nextStage();
-        $this->assertEquals(0, $stagePayload->getCurrentStageNumber());
+        self::assertEquals(0, $stagePayload->getCurrentStageNumber());
 
         $stagePayloadArray = $stagePayload->toArray();
-        $this->assertEquals($stagePayload->getPipelineIdentifier(), $stagePayloadArray['pipeline_identifier']);
-        $this->assertEquals($stagePayload->getCurrentStageNumber(), $stagePayloadArray['current_stage_number']);
-        $this->assertEquals([], $stagePayloadArray['stages']);
+        self::assertEquals($stagePayload->getPipelineIdentifier(), $stagePayloadArray[QueueStagePayload::KEY_PIPELINE_IDENTIFIER]);
+        self::assertEquals($stagePayload->getCurrentStageNumber(), $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGE_NUMBER]);
+        self::assertEquals([], $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGES]);
     }
 
     public function testCreateFilled(): void
@@ -42,36 +42,36 @@ final class QueuePayloadTest extends TestCase
 
         $stagePayload = new QueueStagePayload('test', 0, $stages);
 
-        $this->assertEquals('test', $stagePayload->getPipelineIdentifier());
-        $this->assertEquals(0, $stagePayload->getCurrentStageNumber());
-        $this->assertEquals(1, $stagePayload->getNextStageNumber());
-        $this->assertEquals(TestStage::class, $stagePayload->getStage());
+        self::assertEquals('test', $stagePayload->getPipelineIdentifier());
+        self::assertEquals(0, $stagePayload->getCurrentStageNumber());
+        self::assertEquals(1, $stagePayload->getNextStageNumber());
+        self::assertEquals(TestStage::class, $stagePayload->getStage());
 
         $stagePayload->nextStage();
-        $this->assertEquals(1, $stagePayload->getCurrentStageNumber());
-        $this->assertEquals(2, $stagePayload->getNextStageNumber());
+        self::assertEquals(1, $stagePayload->getCurrentStageNumber());
+        self::assertEquals(2, $stagePayload->getNextStageNumber());
 
         $stagePayloadArray = $stagePayload->toArray();
-        $this->assertEquals($stagePayload->getPipelineIdentifier(), $stagePayloadArray['pipeline_identifier']);
-        $this->assertEquals($stagePayload->getCurrentStageNumber(), $stagePayloadArray['current_stage_number']);
-        $this->assertEquals($stages, $stagePayloadArray['stages']);
+        self::assertEquals($stagePayload->getPipelineIdentifier(), $stagePayloadArray[QueueStagePayload::KEY_PIPELINE_IDENTIFIER]);
+        self::assertEquals($stagePayload->getCurrentStageNumber(), $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGE_NUMBER]);
+        self::assertEquals($stages, $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGES]);
     }
 
     public function testCreateFromArray(): void
     {
         $stagePayload = QueueStagePayload::createFromArray([]);
 
-        $this->assertNotEmpty($stagePayload->getPipelineIdentifier());
-        $this->assertIsString($stagePayload->getPipelineIdentifier());
-        $this->assertEquals(0, $stagePayload->getCurrentStageNumber());
-        $this->assertNull($stagePayload->getNextStageNumber());
-        $this->assertNull($stagePayload->getStage());
+        self::assertNotEmpty($stagePayload->getPipelineIdentifier());
+        self::assertIsString($stagePayload->getPipelineIdentifier());
+        self::assertEquals(0, $stagePayload->getCurrentStageNumber());
+        self::assertNull($stagePayload->getNextStageNumber());
+        self::assertNull($stagePayload->getStage());
 
         $stagePayload = QueueStagePayload::createFromArray(
             [
-                'pipeline_identifier' => 'test',
-                'current_stage_number' => 1,
-                'stages' => [
+                QueueStagePayload::KEY_PIPELINE_IDENTIFIER => 'test',
+                QueueStagePayload::KEY_CURRENT_STAGE_NUMBER => 1,
+                QueueStagePayload::KEY_CURRENT_STAGES => [
                     TestStage::class,
                     TestStage::class,
                     TestStage::class,
@@ -79,10 +79,10 @@ final class QueuePayloadTest extends TestCase
             ]
         );
 
-        $this->assertEquals('test', $stagePayload->getPipelineIdentifier());
-        $this->assertEquals(1, $stagePayload->getCurrentStageNumber());
-        $this->assertEquals(2, $stagePayload->getNextStageNumber());
-        $this->assertEquals(TestStage::class, $stagePayload->getStage());
+        self::assertEquals('test', $stagePayload->getPipelineIdentifier());
+        self::assertEquals(1, $stagePayload->getCurrentStageNumber());
+        self::assertEquals(2, $stagePayload->getNextStageNumber());
+        self::assertEquals(TestStage::class, $stagePayload->getStage());
     }
 
     public function testAddStage(): void
@@ -99,18 +99,18 @@ final class QueuePayloadTest extends TestCase
 
         $stagePayload->addNextStage('test4');
 
-        $this->assertEquals('test1', $stagePayload->getStage());
+        self::assertEquals('test1', $stagePayload->getStage());
 
         $stagePayload->nextStage();
-        $this->assertEquals('test4', $stagePayload->getStage());
+        self::assertEquals('test4', $stagePayload->getStage());
 
         $stagePayload->addNextStage('test5');
-        $this->assertEquals('test4', $stagePayload->getStage());
+        self::assertEquals('test4', $stagePayload->getStage());
 
         $stagePayload->nextStage();
-        $this->assertEquals('test5', $stagePayload->getStage());
+        self::assertEquals('test5', $stagePayload->getStage());
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'test1',
                 'test4',
@@ -118,7 +118,7 @@ final class QueuePayloadTest extends TestCase
                 'test2',
                 'test3',
             ],
-            $stagePayload->toArray()['stages']
+            $stagePayload->toArray()[QueueStagePayload::KEY_CURRENT_STAGES]
         );
     }
 }
