@@ -27,8 +27,14 @@ final class QueuePayloadTest extends TestCase
         self::assertEquals(0, $stagePayload->getCurrentStageNumber());
 
         $stagePayloadArray = $stagePayload->toArray();
-        self::assertEquals($stagePayload->getPipelineIdentifier(), $stagePayloadArray[QueueStagePayload::KEY_PIPELINE_IDENTIFIER]);
-        self::assertEquals($stagePayload->getCurrentStageNumber(), $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGE_NUMBER]);
+        self::assertEquals(
+            $stagePayload->getPipelineIdentifier(),
+            $stagePayloadArray[QueueStagePayload::KEY_PIPELINE_IDENTIFIER]
+        );
+        self::assertEquals(
+            $stagePayload->getCurrentStageNumber(),
+            $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGE_NUMBER]
+        );
         self::assertEquals([], $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGES]);
     }
 
@@ -52,8 +58,14 @@ final class QueuePayloadTest extends TestCase
         self::assertEquals(2, $stagePayload->getNextStageNumber());
 
         $stagePayloadArray = $stagePayload->toArray();
-        self::assertEquals($stagePayload->getPipelineIdentifier(), $stagePayloadArray[QueueStagePayload::KEY_PIPELINE_IDENTIFIER]);
-        self::assertEquals($stagePayload->getCurrentStageNumber(), $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGE_NUMBER]);
+        self::assertEquals(
+            $stagePayload->getPipelineIdentifier(),
+            $stagePayloadArray[QueueStagePayload::KEY_PIPELINE_IDENTIFIER]
+        );
+        self::assertEquals(
+            $stagePayload->getCurrentStageNumber(),
+            $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGE_NUMBER]
+        );
         self::assertEquals($stages, $stagePayloadArray[QueueStagePayload::KEY_CURRENT_STAGES]);
     }
 

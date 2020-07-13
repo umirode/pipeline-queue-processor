@@ -39,7 +39,8 @@ final class QueueProcessor implements ProcessorInterface
 
         $stagePayload = QueueStagePayload::createFromArray(
             [
-                QueueStagePayload::KEY_PIPELINE_IDENTIFIER => $payload[QueueStagePayload::KEY_PIPELINE_IDENTIFIER] ?? null,
+                QueueStagePayload::KEY_PIPELINE_IDENTIFIER =>
+                    $payload[QueueStagePayload::KEY_PIPELINE_IDENTIFIER] ?? null,
                 QueueStagePayload::KEY_CURRENT_STAGES => $stages
             ]
         );
