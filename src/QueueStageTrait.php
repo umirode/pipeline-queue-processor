@@ -52,6 +52,22 @@ trait QueueStageTrait
 
     /**
      * @param array $payload
+     * @param string $stage
+     * @return array|null
+     */
+    protected function addNextStage(array $payload, string $stage): ?array {
+        $stagePayload = $this->getStagePayload($payload);
+        if ($stagePayload === null) {
+            return null;
+        }
+
+        $stagePayload->addNextStage($stage);
+
+        return $stagePayload->toArray();
+    }
+
+    /**
+     * @param array $payload
      * @return QueueStagePayload|null
      */
     protected function getStagePayload(array $payload): ?QueueStagePayload
