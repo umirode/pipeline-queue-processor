@@ -34,7 +34,7 @@ final class QueueStagePayloadPusherTest extends TestCase
 
         $pusher = new QueueStagePayloadPusher($queue);
 
-        $stagePayload = new QueueStagePayload(null, 0, [TestStage::class]);
+        $stagePayload = new QueueStagePayload(null, 0, [QueueStageTraitMock::class]);
 
         $queue->method('push')->willReturn(true);
         $result = $pusher->push([], $stagePayload);
@@ -48,7 +48,7 @@ final class QueueStagePayloadPusherTest extends TestCase
 
         $pusher = new QueueStagePayloadPusher($queue);
 
-        $stagePayload = new QueueStagePayload(null, 0, [TestStage::class]);
+        $stagePayload = new QueueStagePayload(null, 0, [QueueStageTraitMock::class]);
 
         $queue->method('push')->willReturn(false);
         $result = $pusher->push([], $stagePayload);

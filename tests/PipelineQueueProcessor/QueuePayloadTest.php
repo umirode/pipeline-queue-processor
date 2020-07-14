@@ -41,9 +41,9 @@ final class QueuePayloadTest extends TestCase
     public function testCreateFilled(): void
     {
         $stages = [
-            TestStage::class,
-            TestStage::class,
-            TestStage::class,
+            QueueStageTraitMock::class,
+            QueueStageTraitMock::class,
+            QueueStageTraitMock::class,
         ];
 
         $stagePayload = new QueueStagePayload('test', 0, $stages);
@@ -51,7 +51,7 @@ final class QueuePayloadTest extends TestCase
         self::assertEquals('test', $stagePayload->getPipelineIdentifier());
         self::assertEquals(0, $stagePayload->getCurrentStageNumber());
         self::assertEquals(1, $stagePayload->getNextStageNumber());
-        self::assertEquals(TestStage::class, $stagePayload->getStage());
+        self::assertEquals(QueueStageTraitMock::class, $stagePayload->getStage());
 
         $stagePayload->nextStage();
         self::assertEquals(1, $stagePayload->getCurrentStageNumber());
@@ -84,9 +84,9 @@ final class QueuePayloadTest extends TestCase
                 QueueStagePayload::KEY_PIPELINE_IDENTIFIER => 'test',
                 QueueStagePayload::KEY_CURRENT_STAGE_NUMBER => 1,
                 QueueStagePayload::KEY_CURRENT_STAGES => [
-                    TestStage::class,
-                    TestStage::class,
-                    TestStage::class,
+                    QueueStageTraitMock::class,
+                    QueueStageTraitMock::class,
+                    QueueStageTraitMock::class,
                 ],
             ]
         );
@@ -94,7 +94,7 @@ final class QueuePayloadTest extends TestCase
         self::assertEquals('test', $stagePayload->getPipelineIdentifier());
         self::assertEquals(1, $stagePayload->getCurrentStageNumber());
         self::assertEquals(2, $stagePayload->getNextStageNumber());
-        self::assertEquals(TestStage::class, $stagePayload->getStage());
+        self::assertEquals(QueueStageTraitMock::class, $stagePayload->getStage());
     }
 
     public function testAddStage(): void
