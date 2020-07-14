@@ -64,7 +64,9 @@ trait QueueStageTrait
 
         $stagePayload->addNextStage($stage);
 
-        return $stagePayload->toArray();
+        $payload[QueueStagePayload::KEY] = $stagePayload->toArray();
+
+        return $payload;
     }
 
     /**
