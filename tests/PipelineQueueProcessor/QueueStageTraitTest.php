@@ -67,8 +67,12 @@ final class QueueStageTraitTest extends TestCase
 
         $result = $trait->addNextStageP($payload, 'STAGE2');
 
-        self::assertEquals(['STAGE1', 'STAGE2'], $result[QueueStagePayload::KEY][QueueStagePayload::KEY_CURRENT_STAGES]);
+        self::assertEquals(
+            ['STAGE1', 'STAGE2'],
+            $result[QueueStagePayload::KEY][QueueStagePayload::KEY_CURRENT_STAGES]
+        );
     }
+
     /**
      * @param string $pushReturn
      * @return QueueStagePayloadPusher
